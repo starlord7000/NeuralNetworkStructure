@@ -1,6 +1,9 @@
 import math
 import random
 
+def LogisticFunction(x):
+  val = 1/(1+math.e**(-0.0639*(x-0.5)))
+  return val
 class network:
   def __init__(self,hlayers,neurons,inputs,outputs,learningrate=5e-5): #num of hidden layers, neurons in each hidden layer, number of inputs, number of outputs, and learning rate (default value set to 5e-5)
     self.network = {}
@@ -38,7 +41,7 @@ class network:
     for i in self.network["hiddenlayers"]["keys"][0]:
       FHLW[i] = {}
       for j in self.inputnames:
-        FHLW[i][j] = 0.0
+        FHLW[i][j] = random.uniform(0.000,1.000)
     self.network["hiddenlayers"]["weights"].append(FHLW)
     for i in range(1,len(self.network["hiddenlayers"]["keys"])):
       HLW = {} #stands for hidden layer weights
@@ -55,10 +58,10 @@ class network:
     OPLW = {} #stands for output layer weights
     previouslayer = self.network["hiddenlayers"]["keys"][-1]
     for i in range(outputs):
-      OPLW[str(i+(hlayers*neurons))] = {}
+      OPLW[str(i+(hlayers*neurons)+self.inputs)] = {}
       for j in previouslayer:
-        OPLW[str(i+(hlayers*neurons))][j] = random.uniform(0.000,1.000)
-      OPL[str(i+hlayers*neurons)] = 0.0
+        OPLW[str(i+(hlayers*neurons)+self.inputs)][j] = random.uniform(0.000,1.000)
+      OPL[str(i+(hlayers*neurons)+self.inputs)] = 0.0
     self.network["outputlayer"]["weights"] = OPLW
     self.network["outputlayer"]["results"] = OPL
     self.network["outputlayer"]["keys"] = list(OPL.keys())
@@ -72,7 +75,6 @@ class network:
       structurevisual += "\n"
     structurevisual += "\n\n"
     for i in self.network["hiddenlayers"]["results"].keys():
-      #print(self.network["hiddenlayers"]["results"].keys())
       structurevisual += "Hidden Layer #"
       structurevisual += i
       structurevisual += ":"
@@ -82,7 +84,7 @@ class network:
     for i in self.network["outputlayer"]["results"].keys():
       structurevisual += i
       structurevisual += ":"
-      structurevisual += str(self.network["outputlayer"]["results"][i])
+      structurevisual += str(self.network["outputlayer"]["weights"][i])
       structurevisual += "\n"
     structurevisual += "\n\n"
     return structurevisual
