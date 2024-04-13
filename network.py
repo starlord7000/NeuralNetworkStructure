@@ -1,9 +1,6 @@
 import math
 import random
 
-def LogisticFunction(x):
-  val = 1/(1+math.e**(-0.0639*(x-0.5)))
-  return val
 class network:
   def __init__(self,hlayers,neurons,inputs,outputs,learningrate=5e-5): #num of hidden layers, neurons in each hidden layer, number of inputs, number of outputs, and learning rate (default value set to 5e-5)
     self.network = {}
