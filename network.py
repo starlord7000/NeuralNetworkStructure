@@ -144,3 +144,22 @@ class network:
     self.SetInput(inputs)
     self.IterateAllHiddenLayers()
     self.IterateResultLayer()
+
+  def UpdateNeuron(self,key1,key2,rate):
+    locations = ["",""]
+    index = ["",""]
+    keys = [key1,key2]
+    for i in keys:
+      for j in self.network["hiddenlayers"]["keys"]:
+        if i in j:
+          index[keys.index(i)] = str(j)
+          locations[keys.index(i)] = "hiddenlayers"
+      if locations[keys.index(i)] == "":
+        if i in self.network["outputlayer"]["keys"]:
+          locations[keys.index(i)] = "outputlayer"
+        else:
+          return "key not found"
+    if index[0] != "":
+      self.network[locations[0]]["weights"][index[0]][key1][key2] += rate
+    elif locations[0] == "outputlayer":
+      self.network[locations[0]]["weights"][key1][key2] += rate 
