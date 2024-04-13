@@ -66,6 +66,7 @@ class network:
   def __str__(self):
     structurevisual = ""
     for i in self.network["inputlayer"].keys():
+      structurevisual += "Input #"
       structurevisual += i
       structurevisual += ":"
       structurevisual += str(self.network["inputlayer"][i])
@@ -79,6 +80,7 @@ class network:
       structurevisual +="\n"
     structurevisual += "\n\n"
     for i in self.network["outputlayer"]["results"].keys():
+      structurevisual += "Output:Neuron #"
       structurevisual += i
       structurevisual += ":"
       structurevisual += str(self.network["outputlayer"]["weights"][i])
@@ -97,8 +99,6 @@ class network:
         self.network["inputlayer"][index] = self.LogisticFunction(ips[i])
     except IndexError:
       return "given inputs does not match set number of input values in network"
-
-
 
   def GetLayers(self):
     return(self.hlayers)
@@ -140,3 +140,4 @@ class network:
     self.SetInput(inputs)
     self.IterateAllHiddenLayers()
     self.IterateResultLayer()
+
