@@ -85,6 +85,10 @@ class network:
       structurevisual += ":"
       structurevisual += str(self.network["outputlayer"]["weights"][i])
       structurevisual += "\n"
+    structurevisual += "\nFinal Result Values: \n"
+    for i in self.results:
+      structurevisual += str(i)
+      structurevisual += "\n"
     structurevisual += "\n\n"
     return structurevisual
 
@@ -140,4 +144,3 @@ class network:
     self.SetInput(inputs)
     self.IterateAllHiddenLayers()
     self.IterateResultLayer()
-
