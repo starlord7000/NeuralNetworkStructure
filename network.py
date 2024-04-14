@@ -9,6 +9,7 @@ class network:
     self.outputs = outputs #number of output values
     self.hlayers = hlayers #number of hidden layers
     self.neurons = neurons #number of neurons per hidden layer
+    self.LearningRate = learningrate
     self.StrongestValue = 0.000
     self.MiddleValue = 0.000
     self.StrongestValueKey = "a"
@@ -19,7 +20,7 @@ class network:
     for i in range(inputs):
       IPL[str(i)] = 0.0
     self.network["inputlayer"] = IPL
-    self.inputnames = list(IPL.keys())
+    self.network["inputlayer"]["keys"] = list(IPL.keys())
     self.network["hiddenlayers"] = {}
     self.network["hiddenlayers"]["results"] = {}
     self.network["hiddenlayers"]["keys"] = []
@@ -37,7 +38,7 @@ class network:
     FHLW = {} #stands for first hidden layer weights
     for i in self.network["hiddenlayers"]["keys"][0]:
       FHLW[i] = {}
-      for j in self.inputnames:
+      for j in self.network["inputlayer"]["keys"]:
         FHLW[i][j] = random.uniform(0.000,1.000)
     self.network["hiddenlayers"]["weights"].append(FHLW)
     for i in range(1,len(self.network["hiddenlayers"]["keys"])):
@@ -65,7 +66,7 @@ class network:
 
   def __str__(self):
     structurevisual = ""
-    for i in self.network["inputlayer"].keys():
+    for i in self.network["inputlayer"]["keys"]:
       structurevisual += "Input #"
       structurevisual += i
       structurevisual += ":"
@@ -79,7 +80,7 @@ class network:
       structurevisual += str(self.network["hiddenlayers"]["results"][i])
       structurevisual +="\n"
     structurevisual += "\n\n"
-    for i in self.network["outputlayer"]["results"].keys():
+    for i in self.network["outputlayer"]["keys"]:
       structurevisual += "Output:Neuron #"
       structurevisual += i
       structurevisual += ":"
@@ -118,7 +119,7 @@ class network:
 
   def IterateFirstHiddenLayer(self):
     for i in self.network["hiddenlayers"]["keys"][0]:
-      for j in self.inputnames:
+      for j in self.network["inputlayer"]["keys"]:
         self.network["hiddenlayers"]["results"]["0"][i] += self.network["inputlayer"][j]*self.network["hiddenlayers"]["weights"][0][i][j]
       self.network["hiddenlayers"]["results"]["0"][i] = self.LogisticFunction(self.network["hiddenlayers"]["results"]["0"][i])
 
@@ -145,19 +146,21 @@ class network:
     self.IterateAllHiddenLayers()
     self.IterateResultLayer()
 
-  def UpdateNeuron(self,key1,key2,rate):
+  def UpdateWeight(self,key1,key2,rate=None):
     locations = ["",""]
-    index = ["",""]
+    index = [0,0]
     keys = [key1,key2]
+    if not rate:
+      rate = self.LearningRate
     for i in keys:
       for j in self.network["hiddenlayers"]["keys"]:
         if i in j:
-          index[keys.index(i)] = str(j)
+          index[keys.index(i)] = self.network["hiddenlayers"]["keys"].index(j)
           locations[keys.index(i)] = "hiddenlayers"
       if locations[keys.index(i)] == "":
         if i in self.network["outputlayer"]["keys"]:
           locations[keys.index(i)] = "outputlayer"
-        elif i in self.network["inputlayer"]["keys"]:
+        elif i in self.network["inputlayer"]["keys"] and keys.index(i) == 1:
           locations[keys.index(i)] = "inputlayer"
         else:
           return "key not found"
