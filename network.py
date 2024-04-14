@@ -157,6 +157,8 @@ class network:
       if locations[keys.index(i)] == "":
         if i in self.network["outputlayer"]["keys"]:
           locations[keys.index(i)] = "outputlayer"
+        elif i in self.network["inputlayer"]["keys"]:
+          locations[keys.index(i)] = "inputlayer"
         else:
           return "key not found"
     if index[0] != "":
