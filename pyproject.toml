@@ -33,7 +33,7 @@ name = "network"  # REQUIRED, is the only field that cannot be marked as dynamic
 #
 # For a discussion on single-sourcing the version, see
 # https://packaging.python.org/guides/single-sourcing-package-version/
-version = "3.0.0"  # REQUIRED, although can be dynamic
+version = "1.0.2"  # REQUIRED, although can be dynamic
 
 # This is a one-line description or tagline of what your project does. This
 # corresponds to the "Summary" metadata field:
@@ -59,7 +59,7 @@ requires-python = ">=3.8"
 # This is either text indicating the license for the distribution, or a file
 # that contains the license.
 # https://packaging.python.org/en/latest/specifications/core-metadata/#license
-license = {file = "LICENSE.txt"}
+#license = {file = "LICENSE.txt"}
 
 # This field adds keywords for your project which will appear on the
 # project page. What does your project relate to?
@@ -67,14 +67,14 @@ license = {file = "LICENSE.txt"}
 # Note that this is a list of additional keywords, separated
 # by commas, to be used to assist searching for the distribution in a
 # larger catalog.
-keywords = ["sample", "setuptools", "development"]
+#keywords = ["sample", "setuptools", "development"]
 
 # This should be your name or the name of the organization who originally
 # authored the project, and a valid email address corresponding to the name
 # listed.
-authors = [
-  {name = "A. Random Developer", email = "author@example.com" }
-]
+#authors = [
+#  {name = "A. Random Developer", email = "author@example.com" }
+#]
 
 # This should be your name or the names of the organization who currently
 # maintains the project, and a valid email address corresponding to the name
@@ -119,7 +119,7 @@ classifiers = [
 # For an analysis of this field vs pip's requirements files see:
 # https://packaging.python.org/discussions/install-requires-vs-requirements/
 dependencies = [
-  "peppercorn"
+  "math", "random"
 ]
 
 # List additional groups of dependencies here (e.g. development
@@ -163,4 +163,4 @@ sample = "sample:main"
 [tool.setuptools]
 # If there are data files included in your packages that need to be
 # installed, specify them here.
-package-data = {"sample" = ["*.dat"]}
+#package-data = {"sample" = ["*.dat"]}
