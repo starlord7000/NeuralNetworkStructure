@@ -33,7 +33,7 @@ class network:
         index = str(j+(i*neurons)+inputs)
         HLK.append(index)
         HLC[str(i)][str(index)] = 0.0
-      self.network["hiddenlayers"]["results"] = HLC
+      self.network["hiddenlayers"]["results"] = HLC.copy()
       self.network["hiddenlayers"]["keys"].append(HLK)
     FHLW = {} #stands for first hidden layer weights
     for i in self.network["hiddenlayers"]["keys"][0]:
@@ -49,8 +49,8 @@ class network:
       for j in previouslayer:
         CLW[j] = random.uniform(0.000,1.000)
       for k in currentkeys:
-        HLW[k] = CLW
-      self.network["hiddenlayers"]["weights"].append(HLW)
+        HLW[k] = CLW.copy()
+      self.network["hiddenlayers"]["weights"].append(HLW.copy())
     self.network["outputlayer"] = {}
     OPL = {} #stands for output layer (results)
     OPLW = {} #stands for output layer weights
@@ -152,6 +152,7 @@ class network:
     keys = [key1,key2]
     if not rate:
       rate = self.LearningRate
+      
     for i in keys:
       for j in self.network["hiddenlayers"]["keys"]:
         if i in j:
@@ -164,7 +165,7 @@ class network:
           locations[keys.index(i)] = "inputlayer"
         else:
           return "key not found"
-    if index[0] != "":
+    if locations[0] == "hiddenlayers":
       self.network[locations[0]]["weights"][index[0]][key1][key2] += rate
     elif locations[0] == "outputlayer":
       self.network[locations[0]]["weights"][key1][key2] += rate 
