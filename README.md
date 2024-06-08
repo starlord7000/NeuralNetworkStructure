@@ -2,13 +2,7 @@
 
 ![Python Logo](https://www.python.org/static/community_logos/python-logo.png "Sample inline image")
 
-A sample project that exists as an aid to the [Python Packaging User
-Guide][packaging guide]'s [Tutorial on Packaging and Distributing
-Projects][distribution tutorial].
-
-This project does not aim to cover best practices for Python project
-development as a whole. For example, it does not provide guidance or tool
-recommendations for version control, documentation, or testing.
+Simple library that defines the structure for a neural network and provides a simple way to update weights.
 
 [The source for this project is available here][src].
 
