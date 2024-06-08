@@ -1,4 +1,4 @@
-# A sample Python project
+# A python Neural Network Library
 
 ![Python Logo](https://www.python.org/static/community_logos/python-logo.png "Sample inline image")
 
