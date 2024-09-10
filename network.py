@@ -10,12 +10,6 @@ class network:
     self.hlayers = hlayers #number of hidden layers
     self.neurons = neurons #number of neurons per hidden layer
     self.LearningRate = learningrate
-    self.StrongestValue = 0.000
-    self.MiddleValue = 0.000
-    self.StrongestValueKey = "a"
-    self.CorrectStrongestValue = "g"
-    self.StrongestLayer2InputWeight = 0.000
-    self.StrongestLayer1Neuron = ""
     IPL = {} #stands for input layer
     for i in range(inputs):
       IPL[str(i)] = 0.0
@@ -101,9 +95,13 @@ class network:
     try:
       for i in range(self.inputs):
         index = str(i)
+        try:
+          ips[i] = float(ips[i])
+        except ValueError:
+          return f"input at index {i} is not a numerical value."
         self.network["inputlayer"][index] = self.LogisticFunction(ips[i])
     except IndexError:
-      return "given inputs does not match set number of input values in network"
+      return "given inputs does not match set number of input values in network."
 
   def GetLayers(self):
     return(self.hlayers)
@@ -112,9 +110,25 @@ class network:
     structurevisual = ""
     for i in self.network["hiddenlayers"]["results"].keys():
       structurevisual += str(i)
-      structurevisual += ":"
+      structurevisual += ": "
       structurevisual += str(self.network["hiddenlayers"]["results"][i])
       structurevisual +="\n"
+    index = 0
+    for i in self.network["hiddenlayers"]["weights"]:
+      structurevisual += "hidden layer #"
+      structurevisual += str(index)
+      structurevisual += ": \n"
+      for j in i.keys():
+        structurevisual += j
+        structurevisual += ":"
+        structurevisual +="\n"
+        for k in i[j].keys():
+          structurevisual += k
+          structurevisual += ":"
+          structurevisual += str(i[j][k])
+          structurevisual +="\n"
+      structurevisual += "\n"
+      index +=1
     return structurevisual
 
   def IterateFirstHiddenLayer(self):
@@ -132,7 +146,8 @@ class network:
 
   def IterateAllHiddenLayers(self):
     self.IterateFirstHiddenLayer()
-    self.IterateOtherHiddenLayers()
+    if self.hlayers > 1:
+      self.IterateOtherHiddenLayers()
 
   def IterateResultLayer(self):
     for i in self.network["outputlayer"]["keys"]:
@@ -146,13 +161,14 @@ class network:
     self.IterateAllHiddenLayers()
     self.IterateResultLayer()
 
-  def UpdateWeight(self,key1,key2,rate=None):
+  def UpdateWeight(self,key1,key2,rate=None, customvalue =None):
     locations = ["",""]
     index = [0,0]
     keys = [key1,key2]
     if not rate:
-      rate = self.LearningRate
-      
+      if not customvalue:
+        rate = self.LearningRate
+
     for i in keys:
       for j in self.network["hiddenlayers"]["keys"]:
         if i in j:
@@ -165,7 +181,15 @@ class network:
           locations[keys.index(i)] = "inputlayer"
         else:
           return "key not found"
-    if locations[0] == "hiddenlayers":
-      self.network[locations[0]]["weights"][index[0]][key1][key2] += rate
-    elif locations[0] == "outputlayer":
-      self.network[locations[0]]["weights"][key1][key2] += rate 
+    if not customvalue:
+      if locations[0] == "hiddenlayers":
+        self.network[locations[0]]["weights"][index[0]][key1][key2] += rate
+      elif locations[0] == "outputlayer":
+        self.network[locations[0]]["weights"][key1][key2] += rate 
+    else:
+      if locations[0] == "hiddenlayers":
+        self.network[locations[0]]["weights"][index[0]][key1][key2] = customvalue
+      elif locations[0] == "outputlayer":
+        self.network[locations[0]]["weights"][key1][key2] = customvalue
+
+
